@@ -3,7 +3,7 @@
 import re
 
 
-def filter_datum(fields, redaction, message, separetor):
+def filter_datum(fields, redaction, message, separetor) -> str:
     ''' filter '''
     for i in fields:
         pattern = r"({}=)([^;]+)".format(i)
