@@ -3,9 +3,7 @@
 import re
 
 
-def filter_datum(fields, redaction, message, separetor) -> str:
+def filter_datum(fields, redaction, message, separator):
     ''' filter '''
-    for i in fields:
-        pattern = r"({}=)([^;]+)".format(i)
-        message = re.sub(pattern, r"\1{}".format(redaction), message)
-    return message
+    return re.sub(rf"({'|'.join(fields)})=[^;{separator}]+",
+                  lambda m: f"{m.group(1)}={redaction}", message)
