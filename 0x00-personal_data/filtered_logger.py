@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 ''' filter '''
 import re
+import os
 from typing import List
 import logging
 from os import environ
@@ -31,9 +32,9 @@ def get_logger() -> logging.Logger:
 
     return logger
 
-'''
+"""
 def get_db() -> MySQLConnection:
-    ''' return db '''
+    return db 
     username = environ.get("PERSONAL_DATA_DB_USERNAME", "root")
     password = environ.get("PERSONAL_DATA_DB_PASSWORD", "")
     host = environ.get("PERSONAL_DATA_DB_HOST", "localhost")
@@ -44,8 +45,8 @@ def get_db() -> MySQLConnection:
                                                      host=host,
                                                      database=db_name)
     return cnx
-'''
-def get_db() -> mysql.connector.connection.MYSQLConnection:
+"""
+def get_db() -> MySQLConnection:
     """ Connection to MySQL environment """
     db_connect = mysql.connector.connect(
         user=os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
