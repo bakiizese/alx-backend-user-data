@@ -46,7 +46,7 @@ def get_db() -> MySQLConnection:
                                                      database=db_name)
     return cnx
 """
-def get_db():
+def get_db() -> MySQLConnection:
 
     config = {
             'user': os.environ.get('PERSONAL_DATA_DB_USERNAME'),
