@@ -50,7 +50,13 @@ class BasicAuth(Auth):
                 ':' not in decoded_base64_authorization_header):
             return (None, None)
         sp = decoded_base64_authorization_header.split(':')
-        return (sp[0], sp[1])
+        sp2 = sp.copy()
+        sp.pop(0)
+        st = ''
+        for k in sp:
+            st += k + ':'
+        st = st[:-1]
+        return (sp2[0], st)
 
     def user_object_from_credentials(self, user_email: str,
                                      user_pwd: str) -> TypeVar('User'):
@@ -90,7 +96,7 @@ class BasicAuth(Auth):
                 if decode_auth:
                     auth_crd = self.extract_user_credentials(decode_auth)
                     if auth_crd:
-                        rlt = self.user_object_from_credentials(auth_crd[0],
+                        r = self.user_object_from_credentials(auth_crd[0],
                                                                 auth_crd[1])
-                        return rlt
+                        return r
         return None
