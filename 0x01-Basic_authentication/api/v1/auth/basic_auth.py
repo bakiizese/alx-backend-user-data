@@ -42,12 +42,9 @@ class BasicAuth(Auth):
                                  str) -> (str, str):
         ''' return tuple '''
         if (
-            not decoded_base64_authorization_header or
-            not isinstance(decoded_base64_authorization_header, str) or
-            not ':' in decoded_base64_authorization_header
-            ):
+                not decoded_base64_authorization_header or
+                not isinstance(decoded_base64_authorization_header, str) or
+                ':' not in decoded_base64_authorization_header):
             return (None, None)
         sp = decoded_base64_authorization_header.split(':')
-        return tuple(sp[0], sp[1])
-
-
+        return (sp[0], sp[1])
