@@ -92,5 +92,5 @@ class BasicAuth(Auth):
                     if auth_crd:
                         rlt = self.user_object_from_credentials(auth_crd[0],
                                                                 auth_crd[1])
-                        return rtl
+                        return rlt
         return None
