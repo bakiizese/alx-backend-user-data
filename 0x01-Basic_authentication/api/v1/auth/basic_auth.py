@@ -6,9 +6,11 @@ import base64
 
 class BasicAuth(Auth):
     ''' class '''
-    def extract_base64_authorization_header(self, authorization_header: str) -> str:
+    def extract_base64_authorization_header(self,
+                                            authorization_header: str) -> str:
         ''' check if can be encode '''
-        if not authorization_header or not isinstance(authorization_header, str):
+        if not authorization_header or not isinstance(authorization_header,
+                                                      str):
             return None
 
         ls = authorization_header.split(' ')
@@ -18,9 +20,13 @@ class BasicAuth(Auth):
         auths = str(ls[1])
         return auths
 
-    def decode_base64_authorization_header(self, base64_authorization_header: str) -> str:
+    def decode_base64_authorization_header(self,
+                                           base64_authorization_header:
+                                           str) -> str:
         ''' decode to base64 '''
-        if not base64_authorization_header or not isinstance(base64_authorization_header, str):
+        if not base64_authorization_header:
+            return None
+        if not isinstance(base64_authorization_header, str):
             return None
 
         try:
@@ -28,5 +34,5 @@ class BasicAuth(Auth):
             baseutf = base.decode('utf-8')
         except Exception:
             return None
-        return baseutf
 
+        return baseutf
