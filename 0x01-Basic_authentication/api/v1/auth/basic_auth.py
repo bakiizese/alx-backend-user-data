@@ -3,6 +3,7 @@
 from api.v1.auth.auth import Auth
 import base64
 from models.user import User
+from models.base import Base
 from typing import TypeVar
 
 
@@ -61,10 +62,15 @@ class BasicAuth(Auth):
                 not isinstance(user_pwd, str)
                 ):
             return None
-        dicts = {'email': user_email}
 
+        try:
+            User.all()
+        except Exception:
+            return None
+        dicts = {'email': user_email}
         if not User.search(dicts):
             return None
+
         based_on_email = User.search(dicts)
         based_on_email = based_on_email[0]
         if based_on_email.is_valid_password(user_pwd):
