@@ -35,11 +35,10 @@ class BasicAuth(Auth):
         try:
             base = base64.b64decode(base64_authorization_header)
         except Exception:
-            print('her')
             return None
 
         baseutf = base.decode('utf-8')
-        return base
+        return baseutf
 
     def extract_user_credentials(self,
                                  decoded_base64_authorization_header:
@@ -77,4 +76,19 @@ class BasicAuth(Auth):
             dicts['password'] = based_on_email.password
             search_based_em_pwd = User.search(dicts)
             return search_based_em_pwd[0]
+        return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        ''' assemble '''
+        auth_header = self.authorization_header(request)
+        if auth_header:
+            auth_pwd = self.extract_base64_authorization_header(auth_header)
+            if auth_pwd:
+                decode_auth = self.decode_base64_authorization_header(auth_pwd)
+                if decode_auth:
+                    auth_crd = self.extract_user_credentials(decode_auth)
+                    if auth_crd:
+                        rlt = self.user_object_from_credentials(auth_crd[0],
+                                                                auth_crd[1])
+                        return rtl
         return None
