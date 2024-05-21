@@ -15,8 +15,11 @@ class Auth:
             path1 = path[:-1]
         else:
             path1 = path + '/'
-        if path1 in excluded_paths or path in excluded_paths:
-            return False
+        for ls in excluded_paths:
+            if ls[-1] == '*':
+                ls = ls[:-1]
+            if ls in path1 or ls in path:
+                return False
         return True
 
     def authorization_header(self, request=None) -> str:

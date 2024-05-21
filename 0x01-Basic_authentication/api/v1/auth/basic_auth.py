@@ -97,6 +97,6 @@ class BasicAuth(Auth):
                     auth_crd = self.extract_user_credentials(decode_auth)
                     if auth_crd:
                         r = self.user_object_from_credentials(auth_crd[0],
-                                                                auth_crd[1])
+                                                              auth_crd[1])
                         return r
         return None
