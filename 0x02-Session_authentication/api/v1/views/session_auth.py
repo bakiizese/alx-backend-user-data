@@ -14,18 +14,18 @@ def auth_sess():
     email = request.form.get('email')
     password = request.form.get('password')
     if not email:
-        return jsonify({ "error": "email missing" }), 400
+        return jsonify({"error": "email missing"}), 400
     if not password:
-        return jsonify({ "error": "password missing" }), 400
-    
+        return jsonify({"error": "password missing"}), 400
+
     dicts = {'email': email}
     if not User.search(dicts):
-         return jsonify({ "error": "no user found for this email" }), 404
+        return jsonify({"error": "no user found for this email"}), 404
 
     based_on_email = User.search(dicts)
     based_on_email = based_on_email[0]
     if not based_on_email.is_valid_password(password):
-        return jsonify({ "error": "wrong password" }), 401
+        return jsonify({"error": "wrong password"}), 401
 
     dicts['password'] = based_on_email.password
     search_based_em_pwd = User.search(dicts)
