@@ -8,6 +8,7 @@ import uuid
 class SessionAuth(Auth):
     ''' session auth '''
     user_id_by_session_id = {}
+
     def create_session(self, user_id: str = None) -> str:
         ''' assign session id '''
         if not user_id or not isinstance(user_id, str):
