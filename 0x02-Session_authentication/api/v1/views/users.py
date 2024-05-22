@@ -33,7 +33,7 @@ def view_one_user(user_id: str = None) -> str:
         user = request.current_user
     if user is None:
         abort(404)
-    return jsonify(user.to_json())
+    return jsonify(user.to_json()), 200
 
 
 @app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
