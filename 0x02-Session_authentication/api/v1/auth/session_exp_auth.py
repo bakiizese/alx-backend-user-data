@@ -38,10 +38,15 @@ class SessionExpAuth(SessionAuth):
             self.user_id_by_session_id[session_id]
         except Exception:
             return None
+
         if self.session_duration <= 0:
             return self.user_id_by_session_id[session_id]['user_id']
-        if 'created_at' not in session_dictionary:
+
+        try:
+            self.user_id_by_session_id[session_id]['created_at']:
+        except Exception:
             return None
+
         created_at = self.user_id_by_session_id[session_id]['created_at']
         dur = timedelta(seconds=self.session_duration)
         if created_at + dur < datetime.now():
