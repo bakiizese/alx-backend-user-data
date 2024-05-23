@@ -14,7 +14,7 @@ except Exception:
 
 class SessionExpAuth(SessionAuth):
     ''' expire session '''
-    def __init__(self):
+    def __init__(self, duration):
         ''' define duration of exp '''
         self.session_duration = duration
 
@@ -38,6 +38,7 @@ class SessionExpAuth(SessionAuth):
         except Exception:
             return None
         if self.session_duration <= 0:
+            print(self.user_id_by_session_id)
             return self.user_id_by_session_id[session_id]['user_id']
         if not self.user_id_by_session_id[session_id]['created_at']:
             return None
