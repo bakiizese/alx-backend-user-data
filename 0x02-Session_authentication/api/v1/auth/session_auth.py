@@ -32,3 +32,14 @@ class SessionAuth(Auth):
         if cook:
             return User.get(cook)
         return None
+
+    def destroy_session(self, request=None):
+        ''' destroy a session '''
+        if request:
+            check = self.session_cookie(request)
+            if check:
+                search = self.user_id_for_session_id(check)
+                if search:
+                    del self.user_id_by_session_id[check]
+                    return True
+        return False
