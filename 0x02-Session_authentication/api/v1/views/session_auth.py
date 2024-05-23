@@ -34,6 +34,7 @@ def auth_sess():
     from api.v1.app import auth
     cookie_of_usr = auth.create_session(usr.id)
     response = make_response(usr.to_json())
+    print(cookie_of_usr)
     response.set_cookie(sess_name, cookie_of_usr)
 
     return response
