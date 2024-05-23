@@ -43,7 +43,7 @@ class SessionExpAuth(SessionAuth):
             return self.user_id_by_session_id[session_id]['user_id']
 
         try:
-            self.user_id_by_session_id[session_id]['created_at']:
+            self.user_id_by_session_id[session_id]['created_at']
         except Exception:
             return None
 
