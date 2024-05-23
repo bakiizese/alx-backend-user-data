@@ -39,7 +39,7 @@ class SessionExpAuth(SessionAuth):
             return None
         if self.session_duration <= 0:
             print(self.user_id_by_session_id)
-            return None #self.user_id_by_session_id[session_id]['user_id']
+            return self.user_id_by_session_id[session_id]['user_id']
         if not self.user_id_by_session_id[session_id]['created_at']:
             return None
         created_at = self.user_id_by_session_id[session_id]['created_at']
