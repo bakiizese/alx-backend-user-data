@@ -60,7 +60,7 @@ class DB:
         u1 = self.find_user_by(id=user_id)
         if u1 is None:
             return
-        cols = User.__table__.colmuns.keys()
+        cols = User.__table__.columns.keys()
         for k in kwargs.keys():
             if k not in cols:
                 raise ValueError()
