@@ -65,7 +65,7 @@ class DB:
             if hasattr(User, k):
                 cols[getattr(User, k)] = v
             else:
-                raise ValueError
+                raise ValueError()
         
         self._session.query(User).filter(User.id==ids).update(
                 cols,
