@@ -55,7 +55,7 @@ class DB:
             raise NoResultFound
         return qr
 
-    def update_user(self, ids: str, **kwargs) -> None:
+    def update_user(self, ids: int, **kwargs) -> None:
         ''' update a value '''
         u1 = self.find_user_by(id=ids)
         if not u1:
