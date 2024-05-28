@@ -57,9 +57,15 @@ class DB:
 
     def update_user(self, ids: int, **kwargs) -> None:
         ''' update a value '''
-        u1 = self.find_user_by(id=ids)
-        if not u1:
-            return
+        if not isinstance(ids, int):
+            raise ValueError
+        try:
+            u1 = self.find_user_by(id=ids)
+            if not u1:
+                return
+        except Exception:
+            raise ValueError
+
         cols: List = User.__table__.columns.keys()
         for k in kwargs:
             if k not in cols:
