@@ -42,9 +42,11 @@ class DB:
     def find_user_by(self, **kwargs) -> User:
         """ return whats found """
         email = kwargs.get('email', None)
-        if not email:
-            raise InvalidRequestError
-        qr = self._session.query(User).filter_by(email=email).first()
+        col = User.__table__.columns.key()
+        for k in kwargs.keys():
+            if k not in col:
+                raise InvalidRequestError
+        qr = self._session.query(User).filter_by(**kwargs).first()
         if qr is None:
             raise NoResultFound
         return qr
