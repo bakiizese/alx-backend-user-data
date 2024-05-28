@@ -55,20 +55,18 @@ class DB:
             raise NoResultFound
         return qr
 
-    def update_user(self, user_ids: int, **kwargs) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         ''' update a value '''
-        u1 = self.find_user_by(id=user_ids)
+        u1 = self.find_user_by(id=user_id)
         if u1 is None:
             return
-        cols = {}
-        for k, v in kwargs.items():
-            if hasattr(User, k):
-                cols[getattr(User, k)] = v
-            else:
+        cols = User.__table__.colmuns.keys()
+        for k in kwargs.keys():
+            if k not in cols:
                 raise ValueError()
-        
-        self._session.query(User).filter(User.id == user_ids).update(
-            cols,
-            synchronize_session=False,
-        )
-        self._session.commit()
+        for k, v in kwargs.items():            
+            self._session.query(User).filter(User.id == user_id).update(
+                {k: v},
+                synchronize_session=False,
+            )
+            self._session.commit()
