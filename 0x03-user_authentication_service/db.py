@@ -54,3 +54,12 @@ class DB:
         if qr is None:
             raise NoResultFound
         return qr
+
+    def update_user(self, ids: str, hashed_password: str) -> None:
+        ''' update a value '''
+        u1 = self.find_user_by(id=ids)
+        if not u1:
+            raise ValueError
+        u1.hashed_password = hashed_password
+        self._session.commit()
+        return None
