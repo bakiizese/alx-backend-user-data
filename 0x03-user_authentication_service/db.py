@@ -55,40 +55,20 @@ class DB:
             raise NoResultFound
         return qr
 
-    # def update_user(self, user_id: int, **kwargs) -> None:
-    #     """Updates a user based on a given id.
-    #     """
-    #     user = self.find_user_by(id=user_id)
-    #     if user is None:
-    #         return
-    #     update_source = {}
-    #     for key, value in kwargs.items():
-    #         if hasattr(User, key):
-    #             update_source[getattr(User, key)] = value
-    #         else:
-    #             raise ValueError()
-    #     self._session.query(User).filter(User.id == user_id).update(
-    #         update_source,
-    #         synchronize_session=False,
-    #     )
-    #     self._session.commit()
     def update_user(self, ids: int, **kwargs) -> None:
         ''' update a value '''
         u1 = self.find_user_by(id=ids)
         if not u1:
             return
-        cols: List[str] = User.__table__.columns.keys()
-        for k in kwargs.keys():
-            if k not in cols:
-                raise ValueError
+        cols = {}
         for k, v in kwargs.items():
-            print(f'{k} {v}')
-            try:
-                qr = self._session.query(User).filter_by(User.id==ids).update(
-                        {k: v},
-                        synchronize_session=False
-                    )
-                self._session.commit()
-            except Exception:
-                self._session.rollback()
+            if hasattr(User, k):
+                cols[getattr(User, k)] = v
+            else:
                 raise ValueError
+        
+        self._session.query(User).filter_by(User.id==ids).update(
+                cols,
+                synchronize_session=False
+            )
+        self._session.commit()
