@@ -82,8 +82,9 @@ class DB:
             if k not in cols:
                 raise ValueError
         for k, v in kwargs.items():
+            print(f'{k} {v}')
             try:
-                qr = self._session.query(User).filter_by(id=ids).update(
+                qr = self._session.query(User).filter_by(User.id==ids).update(
                         {k: v},
                         synchronize_session=False
                     )
