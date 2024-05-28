@@ -29,7 +29,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> TypeVar:
+    def add_user(self, email: str, hashed_password: str) -> User:
         ''' return user obj '''
         u1 = User(email=email, hashed_password=hashed_password)
         self._session.add(u1)
