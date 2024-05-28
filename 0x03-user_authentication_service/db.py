@@ -55,9 +55,9 @@ class DB:
             raise NoResultFound
         return qr
 
-    def update_user(self, ids: int, **kwargs) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         ''' update a value '''
-        u1 = self.find_user_by(id=ids)
+        u1 = self.find_user_by(id=user_id)
         if u1 is None:
             return
         cols = {}
@@ -67,7 +67,7 @@ class DB:
             else:
                 raise ValueError()
         
-        self._session.query(User).filter(User.id == ids).update(
+        self._session.query(User).filter(User.id == user_id).update(
             cols,
             synchronize_session=False,
         )
