@@ -43,7 +43,7 @@ class DB:
         """ return whats found """
         if not kwargs:
             raise InvalidRequestError
-        col = User.__table__.columns.key()
+        col = User.__table__.columns.keys()
         for k in kwargs.keys():
             if k not in col:
                 raise InvalidRequestError
