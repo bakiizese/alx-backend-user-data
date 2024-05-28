@@ -55,9 +55,11 @@ class DB:
             raise NoResultFound
         return qr
 
-    def update_user(self, ids: int = None, **kwargs) -> None:
+    def update_user(self, ids: int, **kwargs) -> None:
         ''' update a value '''
         u1 = self.find_user_by(id=ids)
+        if not u1:
+            return
         cols: List = User.__table__.columns.keys()
         for k in kwargs:
             if k not in cols:
@@ -65,4 +67,3 @@ class DB:
         for k, v in kwargs.items():
             setattr(u1, k, v)
         self._session.commit()
-        return None
