@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from typing import Optional
+from typing import TypeVar
 from user import Base, User
 
 
@@ -31,12 +31,8 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """ return user obj """
-        if (
-                not email or not hashed_password or
-                not isinstance(email, str) or
-                not isinstance(hashed_password, str)):
-            return None
         u1 = User(email=email, hashed_password=hashed_password)
         self._session.add(u1)
         self._session.commit()
+
         return u1
