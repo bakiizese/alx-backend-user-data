@@ -67,7 +67,7 @@ class DB:
             else:
                 raise ValueError
         
-        self._session.query(User).filter_by(User.id==ids).update(
+        self._session.query(User).filter(User.id==ids).update(
                 cols,
                 synchronize_session=False
             )
