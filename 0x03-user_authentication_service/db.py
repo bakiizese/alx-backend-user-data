@@ -6,6 +6,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from typing import TypeVar
 from user import Base, User
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 
 class DB:
@@ -36,3 +38,13 @@ class DB:
         self._session.commit()
 
         return u1
+
+    def find_user_by(self, **kwargs) -> User:
+        """ return whats found """
+        email = kwargs.get('email', None)
+        if not email:
+            raise InvalidRequestError
+        qr = self._session.query(User).filter_by(email=email).first()
+        if qr is None:
+            raise NoResultFound
+        return qr
