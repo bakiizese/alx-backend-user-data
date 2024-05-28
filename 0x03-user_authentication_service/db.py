@@ -77,7 +77,7 @@ class DB:
         u1 = self.find_user_by(id=ids)
         if not u1:
             return
-        cols: List = User.__table__.columns.keys()
+        cols: List[str] = User.__table__.columns.keys()
         for k in kwargs.keys():
             if k not in cols:
                 raise ValueError
