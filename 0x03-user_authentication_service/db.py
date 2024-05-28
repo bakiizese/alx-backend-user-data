@@ -71,5 +71,12 @@ class DB:
             if k not in cols:
                 raise ValueError
         for k, v in kwargs.items():
-            setattr(u1, k, v)
-        self._session.commit()
+            try:
+                qr = self._session.query(User).filter_by(id=ids).update(
+                        {k: v},
+                        synchronize_session=False
+                    )
+                self._session.commit()
+            except Exception:
+                self._session.rollback()
+                raise ValueError
