@@ -64,7 +64,7 @@ class DB:
         for k in kwargs.keys():
             if k not in cols:
                 raise ValueError()
-        for k, v in kwargs.items():            
+        for k, v in kwargs.items():
             self._session.query(User).filter(User.id == user_id).update(
                 {k: v},
                 synchronize_session=False,
