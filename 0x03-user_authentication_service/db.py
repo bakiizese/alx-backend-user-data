@@ -58,6 +58,8 @@ class DB:
     def update_user(self, ids: str, **kwargs) -> None:
         ''' update a value '''
         u1 = self.find_user_by(id=ids)
+        if not u1:
+            return
         cols = User.__table__.columns.keys()
         for k in kwargs:
             if k not in cols:
