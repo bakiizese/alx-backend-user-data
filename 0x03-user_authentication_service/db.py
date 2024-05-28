@@ -31,27 +31,16 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    # def add_user(self, email: str, hashed_password: str) -> User:
-    #     """ return user obj """
-    #     try:
-    #         u1 = User(email=email, hashed_password=hashed_password)
-    #         self._session.add(u1)
-    #         self._session.commit()
-    #     except Exception:
-    #         self._session.rollback()
-    #         u1 = None
-    #     return u1
     def add_user(self, email: str, hashed_password: str) -> User:
-        """Adds a new user to the database.
-        """
+        """ return user obj """
         try:
-            new_user = User(email=email, hashed_password=hashed_password)
-            self._session.add(new_user)
+            u1 = User(email=email, hashed_password=hashed_password)
+            self._session.add(u1)
             self._session.commit()
         except Exception:
             self._session.rollback()
-            new_user = None
-        return new_user
+            u1 = None
+        return u1
 
     def find_user_by(self, **kwargs) -> User:
         """ return whats found """
