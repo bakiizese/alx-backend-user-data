@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from typing import TypeVar
+from typing import TypeVar, List
 from user import Base, User
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
@@ -58,7 +58,7 @@ class DB:
     def update_user(self, ids: int, **kwargs) -> None:
         ''' update a value '''
         u1 = self.find_user_by(id=ids)
-        cols = User.__table__.columns.keys()
+        cols: List = User.__table__.columns.keys()
         for k in kwargs:
             if k not in cols:
                 raise ValueError
