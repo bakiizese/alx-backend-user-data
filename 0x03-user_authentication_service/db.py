@@ -30,7 +30,7 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        ''' return user obj '''
+        """ return user obj """
         if (
                 not email or not hashed_password or
                 not isinstance(email, str) or
