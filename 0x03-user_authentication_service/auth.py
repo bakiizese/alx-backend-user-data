@@ -53,7 +53,7 @@ class Auth:
     def destroy_session(self, user_id: int) -> None:
         ''' destroy sesion id by user id '''
         self._db.update_user(user_id, session_id=None)
-    
+
     def get_reset_password_token(self, email: str) -> str:
         ''' reset token '''
         try:
