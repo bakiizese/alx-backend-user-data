@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 ''' flask app '''
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, make_response
 from auth import Auth
 app = Flask(__name__)
 AUTH = Auth()
@@ -33,8 +33,12 @@ def session():
     if not email or not password:
         abort(401)
     if AUTH.valid_login(email, password):
-        if AUTH.create_session(email):
-            return jsonify({"email": f"{email}", "message": "logged in"})
+        session = AUTH.create_session(email)
+        if session:
+            response = make_response({"email": f"{email}",
+                                     "message": "logged in"})
+            response.set_cookie('session_id', session)
+            return response
     abort(401)
 
 
