@@ -42,7 +42,7 @@ def session():
     abort(401)
 
 
-@app.route('/session', methods=['DELETE'], strict_slashes=False)
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
 def logout():
     ''' logout '''
     session = request.cookies.get('session_id')
