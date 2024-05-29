@@ -20,6 +20,8 @@ class Auth:
             hashed = _hash_password(password)
             return self._db.add_user(email, hashed)
         raise ValueError(f'User {email} already exists')
+    
+    def
 
 
 def _hash_password(password: str) -> bytes:

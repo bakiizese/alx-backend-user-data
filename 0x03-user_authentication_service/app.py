@@ -17,7 +17,13 @@ def register():
     '''register user'''
     em = request.form.get('email')
     ps = request.form.get('password')
-    print(f'{em},  {ps}')
+
+    try:
+        usr = AUTH.register_user(em, ps)
+    except ValueError:
+        return jsonify({"message": "email already registered"}), 400
+    return jsonify({"email": f"{em}", "message": "user created"})
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
