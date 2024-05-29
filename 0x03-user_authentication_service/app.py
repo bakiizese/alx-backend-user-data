@@ -45,13 +45,12 @@ def session():
 @app.route('/session', methods=['DELETE'], strict_slashes=False)
 def logout():
     ''' logout '''
-    print(request)
     session = request.cookies.get('session_id')
     usr = AUTH.get_user_from_session_id(session)
     if usr:
         AUTH.destroy_session(usr.id)
         return redirect('/')
-    abort(403)
+    return jsonify({}), 403
 
 
 if __name__ == "__main__":
