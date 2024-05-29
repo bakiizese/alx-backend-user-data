@@ -54,7 +54,20 @@ def logout():
         response = make_response(redirect('/'))
         response.delete_cookie('session_id')
         return response
-    return jsonify({}), 403
+    abort(403)
+
+
+@app.route('/profile', methods=['GET'], strict_slashes=False)
+def profile():
+    ''' find user by session '''
+    session = request.cookies.get('session_id')
+    if not session:
+        abort(403)
+    usr = AUTH.get_user_from_session_id(session)
+    if usr:
+        return jsonify({"email": f"{usr.email}"}), 200
+    abort(403)
+
 
 
 if __name__ == "__main__":
