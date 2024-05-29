@@ -32,6 +32,12 @@ class Auth:
             return True
         return False
 
+    def create_session(self, email: str) -> str:
+        ''' create a session id for the email provided '''
+        self._db.find
+
+
+
 
 def _hash_password(password: str) -> bytes:
     ''' hash password by bcrypt '''
