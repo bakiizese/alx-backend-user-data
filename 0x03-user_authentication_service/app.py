@@ -46,11 +46,14 @@ def session():
 def logout():
     ''' logout '''
     session = request.cookies.get('session_id')
+    if not session:
+        abort(403)
     usr = AUTH.get_user_from_session_id(session)
-    print(usr)
     if usr:
         AUTH.destroy_session(usr.id)
-        return redirect('/')
+        response = make_response(redirect('/'))
+        response.delete_cookie('session_id')
+        return response
     return jsonify({}), 403
 
 
