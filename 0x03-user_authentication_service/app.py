@@ -102,6 +102,8 @@ def reset_pwd() -> str:
         token = AUTH.get_reset_password_token(email)
         if token is reset_token:
              AUTH.update_password(reset_token, new_password)
+        else:
+            return abort(403)
     except ValueError:
         abort(403)
 
