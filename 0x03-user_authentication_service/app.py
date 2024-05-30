@@ -2,6 +2,7 @@
 ''' flask app '''
 from flask import Flask, jsonify, request, abort, make_response, redirect
 from auth import Auth
+from typing import Dict
 app = Flask(__name__)
 AUTH = Auth()
 
@@ -85,22 +86,22 @@ def reset_password():
 @app.route('/reset_password',  methods=['PUT'], strict_slashes=False)
 def reset_pwd() -> str:
     ''' reset ps by token '''
-    email = request.form.get('email')
-    reset_token = request.form.get('reset_token')
-    new_password = request.form.get('new_password')
-    if (
-        not email or not reset_token or
-        not new_password):
+    email: str = request.form.get('email')
+    reset_token: str = request.form.get('reset_token')
+    new_password: str = request.form.get('new_password')
+    if not email or not reset_token:
+        abort(403)
+    if not new_password:
         abort(403)
     try:
-        token = AUTH.get_reset_password_token(email)
-        if token == reset_token:
+        token: str = AUTH.get_reset_password_token(email)
+        if token is reset_token:
              AUTH.update_password(reset_token, new_password)
         else:
             abort(403)
     except ValueError:
         abort(403)
-    ms = {"email": email, "message": "Password updated"}
+    ms: Dict = {"email": email, "message": "Password updated"}
     return jsonify(ms), 200
 
 
