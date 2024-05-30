@@ -77,7 +77,7 @@ def reset_password():
         abort(403)
     try:
         usr = AUTH.get_reset_password_token(email)
-    except Exception:
+    except ValueError:
         abort(403)
     return jsonify({"email": f"{email}", "reset_token": f"{usr}"}), 200
 
@@ -96,7 +96,7 @@ def reset_pwd():
         if usr_token == reset_token:
             AUTH.update_password(usr_token, new_password)
         else:
-            abort(403)
+            abort(400)
         return jsonify({"email": f"{email}",
                         "message": "Password updated"}), 200
     except ValueError:
