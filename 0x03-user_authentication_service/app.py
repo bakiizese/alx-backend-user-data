@@ -85,26 +85,24 @@ def reset_password():
 
 @app.route('/reset_password',  methods=['PUT'], strict_slashes=False)
 def reset_pwd() -> str:
-    ''' reset ps by token '''
+    ''' reset password '''
     try:
-        email: str = request.form.get('email')
-        reset_token: str = request.form.get('reset_token')
-        new_password: str = request.form.get('new_password')
+        email = request.form.get('email')
+        reset_token = request.form.get('reset_token')
+        new_password = request.form.get('new_password')
     except KeyError:
-        abort(403)
+        abort(400)
+
     if not email or not reset_token:
         abort(403)
     if not new_password:
         abort(403)
+
     try:
-        token: str = AUTH.get_reset_password_token(email)
-        if token is reset_token:
-             AUTH.update_password(reset_token, new_password)
-        else:
-            abort(403)
+        AUTH.update_password(reset_token, new_password)
     except ValueError:
         abort(403)
-    ms: Dict = {"email": email, "message": "Password updated"}
+    ms = {"email": email, "message": "Password updated"}
     return jsonify(ms), 200
 
 
