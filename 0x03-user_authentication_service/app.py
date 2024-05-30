@@ -99,7 +99,10 @@ def reset_pwd() -> str:
         abort(403)
 
     try:
-        AUTH.get_reset_password_token(email)
+        try:
+            AUTH.get_reset_password_token(email)
+        except Exception:
+            abort(403)
         AUTH.update_password(reset_token, new_password)
     except ValueError:
         abort(403)
