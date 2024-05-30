@@ -3,11 +3,14 @@
 import requests
 
 
-url = "http://192.168.1.4:5000/"
+url = "http://192.168.1.4:5000"
+
 
 def register_user(email: str, password: str) -> None:
     ''' check register user '''
-    url_1 = url + 'users'
+    assert isinstance(email, str)
+    assert isinstance(password, str)
+    url_1 = url + '/users'
     data = {
         'email': email,
         'password': password
@@ -21,26 +24,77 @@ def register_user(email: str, password: str) -> None:
     assert response.status_code == 400
     assert response.json() == r2
 
+
 def log_in_wrong_password(email: str, password: str) -> None:
-    pass
+    ''' check with wrong password '''
+    assert isinstance(email, str)
+    assert isinstance(password, str)
+    url_1 = url + '/sessions'
+    data = {'email': email, 'password': password}
+    response = requests.post(url_1, data=data)
+    assert response.status_code == 401
+
 
 def log_in(email: str, password: str) -> str:
-    pass
+    ''' check log_in '''
+    assert isinstance(email, str)
+    assert isinstance(password, str)
+    url_1 = url + '/sessions'
+    data = {'email': email, 'password': password}
+    response = requests.post(url_1, data=data)
+    assert response.status_code == 200
+    return response.cookies.get('session_id')
+
 
 def profile_unlogged() -> None:
-    pass
+    ''' unlog to index '''
+    url_1 = url + '/profile'
+    response = requests.get(url_1)
+    assert response.status_code == 403
+
 
 def profile_logged(session_id: str) -> None:
-    pass
+    ''' log-in profile '''
+    assert isinstance(session_id, str)
+    url_1 = url + '/profile'
+    data = {'session_id': session_id}
+    response = requests.get(url_1, cookies=data)
+    assert response.status_code == 200
+
 
 def log_out(session_id: str) -> None:
-    pass
+    ''' logout '''
+    url_1 = url + '/sessions'
+    assert isinstance(session_id, str)
+    data = {'session_id': session_id}
+    response = requests.delete(url_1, cookies=data)
+    assert response.status_code == 200
+
 
 def reset_password_token(email: str) -> str:
-    pass
+    ''' reset token '''
+    assert isinstance(email, str)
+    url_1 = url + '/reset_password'
+    data = {'email': email}
+
+    response = requests.post(url_1, data=data)
+    assert response.status_code == 200
+    return response.json().get('reset_token')
+
 
 def update_password(email: str, reset_token: str, new_password: str) -> None:
-    pass
+    ''' update pwd '''
+    assert isinstance(email, str)
+    assert isinstance(new_password, str)
+    assert isinstance(reset_token, str)
+    url_1 = url + '/reset_password'
+    data = {
+        'email': email,
+        'reset_token': reset_token,
+        'new_password': new_password,
+    }
+    res = requests.put(url_1, data=data)
+    assert res.status_code == 200
 
 
 EMAIL = "guillaume@holberton.io"
@@ -51,11 +105,11 @@ NEW_PASSWD = "t4rt1fl3tt3"
 if __name__ == "__main__":
 
     register_user(EMAIL, PASSWD)
-    #log_in_wrong_password(EMAIL, NEW_PASSWD)
-    #profile_unlogged()
-    #session_id = log_in(EMAIL, PASSWD)
-    #profile_logged(session_id)
-    #log_out(session_id)
-    #reset_token = reset_password_token(EMAIL)
-    #update_password(EMAIL, reset_token, NEW_PASSWD)
-    #log_in(EMAIL, NEW_PASSWD)
+    log_in_wrong_password(EMAIL, NEW_PASSWD)
+    profile_unlogged()
+    session_id = log_in(EMAIL, PASSWD)
+    profile_logged(session_id)
+    log_out(session_id)
+    reset_token = reset_password_token(EMAIL)
+    update_password(EMAIL, reset_token, NEW_PASSWD)
+    log_in(EMAIL, NEW_PASSWD)

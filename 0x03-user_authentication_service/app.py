@@ -32,6 +32,7 @@ def session():
     ''' create session '''
     email = request.form.get('email')
     password = request.form.get('password')
+    print('inin')
     if not email or not password:
         abort(401)
     if AUTH.valid_login(email, password):
