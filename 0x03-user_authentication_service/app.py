@@ -83,7 +83,7 @@ def reset_password():
 
 
 @app.route('/reset_password',  methods=['PUT'], strict_slashes=False)
-def reset_pwd():
+def reset_pwd() -> str:
     ''' reset ps by token '''
     try:
         email = request.form.get('email')
