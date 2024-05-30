@@ -3,7 +3,7 @@
 import requests
 
 
-url = "http://192.168.1.4:5000"
+url = "http://0.0.0.0:5000"
 
 
 def register_user(email: str, password: str) -> None:
