@@ -90,12 +90,14 @@ def update_password() -> str:
         email = request.form['email']
         reset_token = request.form['reset_token']
         new_password = request.form['new_password']
-    except KeyError:
-        abort(400)
+    except Exception:
+        abort(403)
 
     try:
-        AUTH.update_password(reset_token, new_password)
-    except ValueError:
+        h = AUTH.update_password(reset_token, new_password)
+        if not h:
+            abort(403)
+    except Exception:
         abort(403)
 
     msg = {"email": email, "message": "Password updated"}
