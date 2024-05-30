@@ -77,9 +77,9 @@ def reset_password():
         abort(403)
     try:
         usr = AUTH.get_reset_password_token(email)
-    except ValueError:
+    except Exception:
         abort(403)
-    return jsonify({"email": email, "reset_token": f"{usr}"}), 200
+    return jsonify({"email": f"{email}", "reset_token": f"{usr}"}), 200
 
 
 @app.route('/reset_password',  methods=['PUT'], strict_slashes=False)
@@ -92,7 +92,11 @@ def reset_pwd():
     except KeyError:
         abort(400)
     try:
-        AUTH.update_password(reset_token, new_password)
+        usr_token = AUTH.get_reset_password_token(email)
+        if usr_token == reset_token:
+            AUTH.update_password(usr_token, new_password)
+        else:
+            abort(403)
         return jsonify({"email": f"{email}",
                         "message": "Password updated"}), 200
     except ValueError:
