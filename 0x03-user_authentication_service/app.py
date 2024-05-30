@@ -95,9 +95,7 @@ def reset_pwd():
         usr_token = AUTH.get_reset_password_token(email)
         if usr_token == reset_token:
             AUTH.update_password(usr_token, new_password)
-        else:
-            abort(400)
-        return jsonify({"email": f"{email}",
+            return jsonify({"email": f"{email}",
                         "message": "Password updated"}), 200
     except ValueError:
         abort(403)
