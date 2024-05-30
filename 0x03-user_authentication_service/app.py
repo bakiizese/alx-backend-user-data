@@ -86,9 +86,12 @@ def reset_password():
 @app.route('/reset_password',  methods=['PUT'], strict_slashes=False)
 def reset_pwd() -> str:
     ''' reset ps by token '''
-    email: str = request.form.get('email')
-    reset_token: str = request.form.get('reset_token')
-    new_password: str = request.form.get('new_password')
+    try:
+        email: str = request.form.get('email')
+        reset_token: str = request.form.get('reset_token')
+        new_password: str = request.form.get('new_password')
+    except KeyError:
+        abort(403)
     if not email or not reset_token:
         abort(403)
     if not new_password:
