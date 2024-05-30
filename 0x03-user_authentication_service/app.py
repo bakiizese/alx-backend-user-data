@@ -2,6 +2,8 @@
 ''' flask app '''
 from flask import Flask, jsonify, request, abort, make_response, redirect
 from auth import Auth
+from typing import Dict
+from sqlalchemy.orm.exc import NoResultFound
 app = Flask(__name__)
 AUTH = Auth()
 
@@ -30,6 +32,7 @@ def session():
     ''' create session '''
     email = request.form.get('email')
     password = request.form.get('password')
+    print('inin')
     if not email or not password:
         abort(401)
     if AUTH.valid_login(email, password):
@@ -71,15 +74,34 @@ def profile():
 
 @app.route('/reset_password',  methods=['POST'], strict_slashes=False)
 def reset_password():
-    ''' reset token '''
+    ''' reset tk by email '''
     email = request.form.get('email')
     if not email:
         abort(403)
     try:
         usr = AUTH.get_reset_password_token(email)
-    except Exception:
+    except ValueError:
         abort(403)
     return jsonify({"email": f"{email}", "reset_token": f"{usr}"}), 200
+
+
+@app.route('/reset_password',  methods=['PUT'], strict_slashes=False)
+def reset_pwd() -> str:
+    ''' reset ps by token '''
+    try:
+        email: str = request.form.get('email')
+        reset_token: str = request.form.get('reset_token')
+        new_password: str = request.form.get('new_password')
+    except KeyError:
+        abort(400)
+
+    try:
+        AUTH.update_password(reset_token, new_password)
+    except ValueError:
+        abort(403)
+
+    ms: Dict = {"email": email, "message": "Password updated"}
+    return jsonify(ms), 200
 
 
 if __name__ == "__main__":
