@@ -91,7 +91,7 @@ def reset_pwd() -> str:
         reset_token: str = request.form.get('reset_token')
         new_password: str = request.form.get('new_password')
     except KeyError:
-        abort(403)
+        abort(400)
 
     if not email or not reset_token:
         abort(403)
