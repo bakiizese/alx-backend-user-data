@@ -82,26 +82,45 @@ def reset_password():
     return jsonify({"email": f"{email}", "reset_token": f"{usr}"}), 200
 
 
-@app.route('/reset_password',  methods=['PUT'], strict_slashes=False)
-def reset_pwd() -> str:
-    ''' reset ps by token '''
-    email = request.form.get('email')
-    reset_token = request.form.get('reset_token')
-    new_password = request.form.get('new_password')
-    if (
-        not email or not reset_token or
-        not new_password):
-        abort(403)
+@app.route('/reset_password', methods=['PUT'])
+def update_password() -> str:
+    """ PUT /reset_password
+    """
     try:
-        token = AUTH.get_reset_password_token(email)
-        if token == reset_token:
-             AUTH.update_password(reset_token, new_password)
-        else:
-            abort(403)
+        email = request.form['email']
+        reset_token = request.form['reset_token']
+        new_password = request.form['new_password']
+    except KeyError:
+        abort(400)
+
+    try:
+        AUTH.update_password(reset_token, new_password)
     except ValueError:
         abort(403)
-    ms = {"email": email, "message": "Password updated"}
-    return jsonify(ms), 200
+
+    msg = {"email": email, "message": "Password updated"}
+    return jsonify(msg), 200
+
+# @app.route('/reset_password',  methods=['PUT'], strict_slashes=False)
+# def reset_pwd() -> str:
+#     ''' reset ps by token '''
+#     email = request.form.get('email')
+#     reset_token = request.form.get('reset_token')
+#     new_password = request.form.get('new_password')
+#     if (
+#         not email or not reset_token or
+#         not new_password):
+#         abort(403)
+#     try:
+#         token = AUTH.get_reset_password_token(email)
+#         if token == reset_token:
+#              AUTH.update_password(reset_token, new_password)
+#         else:
+#             abort(403)
+#     except ValueError:
+#         abort(403)
+#     ms = {"email": email, "message": "Password updated"}
+#     return jsonify(ms), 200
 
 
 if __name__ == "__main__":
