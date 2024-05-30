@@ -85,14 +85,14 @@ def reset_password():
 @app.route('/reset_password',  methods=['PUT'], strict_slashes=False)
 def reset_pwd():
     ''' reset ps by token '''
+    email = request.form.get('email')
+    reset_token = request.form.get('reset_token')
+    new_password = request.form.get('new_password')
+    if (
+        not email or not reset_token or
+        not new_password):
+        abort(403)
     try:
-        email = request.form.get('email')
-        reset_token = request.form.get('reset_token')
-        new_password = request.form.get('new_password')
-        if (
-            not email or not reset_token or
-            not new_password):
-            abort(403)
         usr_token = AUTH.get_reset_password_token(email)
         if usr_token == reset_token:
             AUTH.update_password(usr_token, new_password)
