@@ -3,6 +3,7 @@
 from flask import Flask, jsonify, request, abort, make_response, redirect
 from auth import Auth
 from typing import Dict
+from sqlalchemy.orm.exc import NoResultFound
 app = Flask(__name__)
 AUTH = Auth()
 
