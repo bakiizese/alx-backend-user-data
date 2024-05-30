@@ -68,7 +68,7 @@ class Auth:
         ''' update password '''
         usr = self._db.find_user_by(reset_token=reset_token)
         if not usr:
-            raise ValueError()
+            raise ValueError
         hashed_password = _hash_password(password)
         self._db.update_user(usr.id, hashed_password=hashed_password)
         self._db.update_user(usr.id, reset_token=None)
