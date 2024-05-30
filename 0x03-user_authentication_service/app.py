@@ -91,7 +91,7 @@ def reset_pwd() -> str:
     if (
         not email or not reset_token or
         not new_password):
-        abort(400)
+        abort(403)
     try:
         AUTH.update_password(reset_token, new_password)
     except ValueError:
