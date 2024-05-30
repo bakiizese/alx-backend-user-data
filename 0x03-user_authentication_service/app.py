@@ -97,14 +97,16 @@ def reset_pwd() -> str:
         abort(403)
     if not new_password:
         abort(403)
-    token = AUTH.get_reset_password_token(email)
-    if token == reset_token:
-        try:
-            AUTH.update_password(reset_token, new_password)
-            ms: Dict = {"email": email, "message": "Password updated"}
-            return jsonify(ms), 200
-        except ValueError:
-            abort(403)
+
+    try:
+        token = AUTH.get_reset_password_token(email)
+        if token is reset_token:
+             AUTH.update_password(reset_token, new_password)
+    except ValueError:
+        abort(403)
+
+    ms: Dict = {"email": email, "message": "Password updated"}
+    return jsonify(ms), 200
 
 
 if __name__ == "__main__":
