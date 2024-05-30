@@ -93,7 +93,7 @@ def reset_pwd():
         abort(400)
     try:
         AUTH.update_password(reset_token, new_password)
-        return jsonify({"email": email,
+        return jsonify({"email": f"{email}",
                         "message": "Password updated"}), 200
     except ValueError:
         abort(403)
